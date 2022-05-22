@@ -1,4 +1,10 @@
-<?php ?>
+
+<?php
+//phpinfo();
+$db = new PDO('mysql:host=mariadb;dbname=default', 'nat', '');
+$stmt = $db->query("SELECT * FROM news");
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,36 +30,24 @@
             <a href="#openModal" class="add">
                 <img src="resources/add.svg" alt="Добавить новость">
             </a>
-            <div class="news">
-                <h2>Новость 1</h2>
-                <p>20 мая 2022</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et finibus diam. Pellentesque eu tincidunt risus, vel tempus nibh. Sed feugiat nisl in consectetur aliquam. Quisque fermentum sed dui bibendum pharetra. Etiam at pellentesque eros. Aenean posuere dolor a</p>
-                <img src="resources/category.svg" alt="Категория">
-            </div>
-            <div class="news">
-                <h2>Новость 1</h2>
-                <p>20 мая 2022</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et finibus diam. Pellentesque eu tincidunt risus, vel tempus nibh. Sed feugiat nisl in consectetur aliquam. Quisque fermentum sed dui bibendum pharetra. Etiam at pellentesque eros. Aenean posuere dolor a</p>
-                <img src="resources/category.svg" alt="Категория">
-            </div>
-            <div class="news">
-                <h2>Новость 1</h2>
-                <p>20 мая 2022</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et finibus diam. Pellentesque eu tincidunt risus, vel tempus nibh. Sed feugiat nisl in consectetur aliquam. Quisque fermentum sed dui bibendum pharetra. Etiam at pellentesque eros. Aenean posuere dolor a</p>
-                <img src="resources/category.svg" alt="Категория">
-            </div>
-            <div class="news">
-                <h2>Новость 1</h2>
-                <p>20 мая 2022</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et finibus diam. Pellentesque eu tincidunt risus, vel tempus nibh. Sed feugiat nisl in consectetur aliquam. Quisque fermentum sed dui bibendum pharetra. Etiam at pellentesque eros. Aenean posuere dolor a</p>
-                <img src="resources/category.svg" alt="Категория">
-            </div>
-            <div class="news">
-                <h2>Новость 1</h2>
-                <p>20 мая 2022</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et finibus diam. Pellentesque eu tincidunt risus, vel tempus nibh. Sed feugiat nisl in consectetur aliquam. Quisque fermentum sed dui bibendum pharetra. Etiam at pellentesque eros. Aenean posuere dolor a</p>
-                <img src="resources/category.svg" alt="Категория">
-            </div>
+            <?php
+                while ($row = $stmt->fetch()) {
+                    if (strlen($row[3]) > 750 ) {
+                        $string = substr($row[3], 0, 750);
+                        $string = rtrim($string, "!,.-");
+                        $string = substr($string, 0, strrpos($string, ' '))."...";
+                    } else {
+                        $string = $row[3];
+                    }
+                    $text = "<a href=\"news.php\" class=\"news\">
+                        <h2>".$row[2]."</h2>
+                        <p>".date('d.m.Y', strtotime($row[1]))."</p>
+                        <p>".$string."</p>
+                        <img src=\"resources/category.svg\" alt=\"Категория\">
+                    </a>";
+                    echo($text);
+                }
+            ?>
         </div>
         <div class="pagination">
             <button type="button"><img src="resources/back.svg" alt="Назад"></button>
