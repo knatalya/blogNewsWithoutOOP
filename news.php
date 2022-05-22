@@ -1,3 +1,6 @@
+<?php
+//$_GET['new']
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

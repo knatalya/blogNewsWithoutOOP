@@ -1,9 +1,19 @@
-
 <?php
-//phpinfo();
 $db = new PDO('mysql:host=mariadb;dbname=default', 'nat', '');
-$stmt = $db->query("SELECT * FROM news");
-
+if (isset($_GET['page'])){
+    $page = $_GET['page'];
+} else $page = 1;
+if($page == 1) {
+    $kol = 5;
+} else {
+    $kol = 6;
+}
+$art = ($page * $kol) - $kol;
+$stmt = $db->query("SELECT * FROM news LIMIT $art,$kol");
+$res = $db->query("SELECT COUNT(*) FROM news");
+$rows = $res->fetch();
+$total = $rows[0];
+$str_page = ceil($total / $kol);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,10 +37,11 @@ $stmt = $db->query("SELECT * FROM news");
             <img src="resources/news.svg" alt="Логотип">
         </header>
         <div class="content">
-            <a href="#openModal" class="add">
-                <img src="resources/add.svg" alt="Добавить новость">
-            </a>
             <?php
+                if ($page == 1) {
+                    $text = "<a href=\"#openModal\" class=\"add\"><img src=\"resources/add.svg\" alt=\"Добавить новость\"></a>";
+                    echo($text);
+                }
                 while ($row = $stmt->fetch()) {
                     if (strlen($row[3]) > 750 ) {
                         $string = substr($row[3], 0, 750);
@@ -39,7 +50,7 @@ $stmt = $db->query("SELECT * FROM news");
                     } else {
                         $string = $row[3];
                     }
-                    $text = "<a href=\"news.php\" class=\"news\">
+                    $text = "<a href=\"news.php?new=".$row[0]."\" class=\"news\">
                         <h2>".$row[2]."</h2>
                         <p>".date('d.m.Y', strtotime($row[1]))."</p>
                         <p>".$string."</p>
@@ -50,16 +61,24 @@ $stmt = $db->query("SELECT * FROM news");
             ?>
         </div>
         <div class="pagination">
-            <button type="button"><img src="resources/back.svg" alt="Назад"></button>
-            <button type="button" class="active">1</button>
-            <button type="button">2</button>
-            <button type="button">3</button>
-            <button type="button">4</button>
-            <div>
-                <span>...</span>
-            </div>
-            <button type="button">20</button>
-            <button type="button"><img src="resources/forward.svg" alt="Вперед"></button>
+            <?php
+                if($_GET['page'] != 1)  {
+                    $back = "<a href=\"index.php?page=".($_GET['page']-1)."\"><img src=\"resources/back.svg\" alt=\"Назад\"></a>";
+                    echo $back;
+                }
+                for ($i = 1; $i <= $str_page; $i++){
+                    if ($_GET['page'] == $i) {
+                        $text = "<a href=\"index.php?page=".$i."\" class=\"active\">$i</a>";
+                    } else {
+                        $text = "<a href=\"index.php?page=".$i."\">$i</a>";
+                    }
+                   echo $text;
+                }
+                if($_GET['page'] != $str_page)  {
+                    $forward = "<a href=\"index.php?page=".($_GET['page']+1)."\"><img src=\"resources/forward.svg\" alt=\"Вперед\"></a>";
+                    echo $forward;
+                }
+            ?>
         </div>
     </div>
     <div id="openModal" class="modal">
