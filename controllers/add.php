@@ -8,5 +8,5 @@ if(isset($_POST['name']) && isset($_POST['new']) && $_POST['name'] != ""  && $_P
     $data = array( 'date'=>$date, 'name' => $name, 'new' => $new );
     $query = $db->prepare("INSERT INTO news (date, name, new) values (:date, :name, :new)");
     $query->execute($data);
-    header('Location: index.php#close ');
+    header('Location: /index.php#close ');
 }
