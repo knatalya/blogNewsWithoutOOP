@@ -25,14 +25,14 @@ $string = "<p>". str_replace("\n", "</p>\n<p>", $row[3])."</p>";
         <span>назад к списку</span>
     </a>
     <header>
-        <h1><?php echo $row[2] ?></h1>
+        <h1><?=$row[2] ?></h1>
         <div>
             <a href="#openModal" class="edit">Редактировать</a>
-            <a href="controllers/delete.php?new=<?php echo $id?>" class="delete">Удалить</a>
+            <a href="controllers/delete.php?new=<?=$id?>" class="delete">Удалить</a>
         </div>
     </header>
-    <p class="date number"><?php echo date('d.m.Y', strtotime($row[1])) ?></p>
-    <p><?php echo $string ?></p>
+    <p class="date number"><?=date('d.m.Y', strtotime($row[1])) ?></p>
+    <p><?=$string ?></p>
 </div>
 <div id="openModal" class="modal">
     <div class="modal-dialog">
@@ -44,9 +44,9 @@ $string = "<p>". str_replace("\n", "</p>\n<p>", $row[3])."</p>";
             <div class="modal-body">
                 <form method="post" action="controllers/update.php">
                     <p>Заполните все поля</p>
-                    <input name="id" type="number" value="<?php echo $row[0] ?>" style="display: none">
-                    <input name="name" id="name" type="text" placeholder="Заголовок новости" value="<?php echo $row[2] ?>"/>
-                    <textarea name="new" id="new" cols="30" rows="10" placeholder="Новость"><?php echo $row[3] ?></textarea>
+                    <input name="id" type="number" value="<?=$row[0] ?>" style="display: none">
+                    <input name="name" id="name" type="text" placeholder="Заголовок новости" value="<?=$row[2] ?>"/>
+                    <textarea name="new" id="new" cols="30" rows="10" placeholder="Новость"><?=$row[3] ?></textarea>
                     <div>
                         <input type="submit" class="save" id="save" value="Сохранить">
                         <a href="#close" class="btn-close">Отменить</a>
