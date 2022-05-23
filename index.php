@@ -62,7 +62,7 @@ $str_page = ceil($total / $kol);
                     }
                     $text = "<a href=\"news.php?new=".$row[0]."\" class=\"news\">
                         <h2>".$row[2]."</h2>
-                        <p>".date('d.m.Y', strtotime($row[1]))."</p>
+                        <p class=\"number\">".date('d.m.Y', strtotime($row[1]))."</p>
                         <p>".$string."</p>
                         <img src=\"resources/category.svg\" alt=\"Категория\">
                     </a>";
@@ -76,11 +76,19 @@ $str_page = ceil($total / $kol);
                     $back = "<a href=\"index.php?page=".($_GET['page']-1)."\"><img src=\"resources/back.svg\" alt=\"Назад\"></a>";
                     echo $back;
                 }
-                $text = "<a href=\"index.php?page=1\">1</a>
+                if (isset($_GET['page'])) {
+                    $text = "<a href=\"index.php?page=1\">1</a>
                         <div><span>...</span></div>
                         <a href=\"index.php?page=".$_GET['page']."\" class=\"active\">".$_GET['page']."</a>
                         <div><span>...</span></div>
                         <a href=\"index.php?page=".$str_page."\">$str_page</a>";
+                } else {
+                    $text = "<a href=\"index.php?page=1\">1</a>
+                        <div><span>...</span></div>
+                        <a href=\"index.php?page=".$_GET['page']."\" class=\"active\">1</a>
+                        <div><span>...</span></div>
+                        <a href=\"index.php?page=".$str_page."\">$str_page</a>";
+                }
                 echo $text;
                 if($_GET['page'] != $str_page)  {
                     $forward = "<a href=\"index.php?page=".($_GET['page']+1)."\"><img src=\"resources/forward.svg\" alt=\"Вперед\"></a>";
