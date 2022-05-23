@@ -1,5 +1,15 @@
 <?php
 $db = new PDO('mysql:host=mariadb;dbname=default', 'nat', '');
+$db->exec("set names utf8");
+if(isset($_POST['name']) && isset($_POST['new']) && $_POST['name'] != ""  && $_POST['new'] != "" && strlen($_POST['name']) <= 50) {
+    $name = $_POST['name'];
+    $new = $_POST['new'];
+    $date = date("Y-m-d H:i:s");
+    $data = array( 'date'=>$date, 'name' => $name, 'new' => $new );
+    $query = $db->prepare("INSERT INTO news (date, name, new) values (:date, :name, :new)");
+    $query->execute($data);
+    header('Location: index.php#close ');
+}
 if (isset($_GET['page'])){
     $page = $_GET['page'];
 } else $page = 1;
@@ -9,7 +19,7 @@ if($page == 1) {
     $kol = 6;
 }
 $art = ($page * $kol) - $kol;
-$stmt = $db->query("SELECT * FROM news LIMIT $art,$kol");
+$stmt = $db->query("SELECT * FROM news ORDER BY date DESC LIMIT $art,$kol");
 $res = $db->query("SELECT COUNT(*) FROM news");
 $rows = $res->fetch();
 $total = $rows[0];
@@ -66,14 +76,12 @@ $str_page = ceil($total / $kol);
                     $back = "<a href=\"index.php?page=".($_GET['page']-1)."\"><img src=\"resources/back.svg\" alt=\"Назад\"></a>";
                     echo $back;
                 }
-                for ($i = 1; $i <= $str_page; $i++){
-                    if ($_GET['page'] == $i) {
-                        $text = "<a href=\"index.php?page=".$i."\" class=\"active\">$i</a>";
-                    } else {
-                        $text = "<a href=\"index.php?page=".$i."\">$i</a>";
-                    }
-                   echo $text;
-                }
+                $text = "<a href=\"index.php?page=1\">1</a>
+                        <div><span>...</span></div>
+                        <a href=\"index.php?page=".$_GET['page']."\" class=\"active\">".$_GET['page']."</a>
+                        <div><span>...</span></div>
+                        <a href=\"index.php?page=".$str_page."\">$str_page</a>";
+                echo $text;
                 if($_GET['page'] != $str_page)  {
                     $forward = "<a href=\"index.php?page=".($_GET['page']+1)."\"><img src=\"resources/forward.svg\" alt=\"Вперед\"></a>";
                     echo $forward;
@@ -89,16 +97,30 @@ $str_page = ceil($total / $kol);
                     <a href="#close" title="Close" class="close">×</a>
                 </div>
                 <div class="modal-body">
-                    <p>Заполните все поля</p>
-                    <input type="text" placeholder="Заголовок новости" />
-                    <textarea name="new" id="new" cols="30" rows="10" placeholder="Новость"></textarea>
-                    <div>
-                        <a href="" class="save">Сохранить</a>
-                        <a href="#close" class="btn-close">Отменить</a>
-                    </div>
+                    <form method="post" action="">
+                        <p>Заполните все поля</p>
+                        <input name="name" id="name" type="text" placeholder="Заголовок новости (не больше 50 символов)" />
+                        <textarea name="new" id="new" cols="30" rows="10" placeholder="Новость"></textarea>
+                        <div>
+                            <input type="submit" placeholder="Сохранить" class="save" id="save">
+                            <a href="#close" class="btn-close">Отменить</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        document.getElementById("save").onclick = function(event) {
+             var name = document.getElementById("name").value;
+             var text = document.getElementById("new").value;
+             if (text == "" || name == "") {
+                alert("Поля заполнены не полностью! Заполните.");
+             }
+            if (name.length > 50) {
+                alert("Заголовок слишком длинный!");
+            }
+         }
+    </script>
 </body>
 </html>

@@ -210,7 +210,7 @@ h1, h2 {
     overflow: auto;
 }
 
-.modal-body input, .modal-body textarea {
+.modal-body input[type="text"], .modal-body textarea {
     border: 1px solid #E1E1E1;
     padding-left: 1rem;
     border-radius: 8px;
@@ -221,13 +221,15 @@ h1, h2 {
     font-family: 'Raleway', sans-serif;
 }
 
-.modal-body input {
+.modal-body input[type="text"] {
     height: 3rem;
 }
 
 .modal-body textarea {
     height: 377px;
     padding-top: 1rem;
+    overflow-y: scroll;
+    resize: none;
 }
 
 .modal-body p {
