@@ -101,7 +101,7 @@ $str_page = ceil($total / $kol);
                         <input name="name" id="name" type="text" placeholder="Заголовок новости (не больше 50 символов)" />
                         <textarea name="new" id="new" cols="30" rows="10" placeholder="Новость"></textarea>
                         <div>
-                            <input type="submit" placeholder="Сохранить" class="save" id="save">
+                            <input type="submit" value="Сохранить" class="save" id="save">
                             <a href="#close" class="btn-close">Отменить</a>
                         </div>
                     </form>
@@ -109,17 +109,6 @@ $str_page = ceil($total / $kol);
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        document.getElementById("save").onclick = function(event) {
-             var name = document.getElementById("name").value;
-             var text = document.getElementById("new").value;
-             if (text == "" || name == "") {
-                alert("Поля заполнены не полностью! Заполните.");
-             }
-            if (name.length > 50) {
-                alert("Заголовок слишком длинный!");
-            }
-         }
-    </script>
+    <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>

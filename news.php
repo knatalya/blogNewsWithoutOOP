@@ -48,7 +48,7 @@ $string = "<p>". str_replace("\n", "</p>\n<p>", $row[3])."</p>";
                     <input name="name" id="name" type="text" placeholder="Заголовок новости" value="<?php echo $row[2] ?>"/>
                     <textarea name="new" id="new" cols="30" rows="10" placeholder="Новость"><?php echo $row[3] ?></textarea>
                     <div>
-                        <input type="submit" class="save" id="save" placeholder="Сохранить">
+                        <input type="submit" class="save" id="save" value="Сохранить">
                         <a href="#close" class="btn-close">Отменить</a>
                     </div>
                 </form>
@@ -56,17 +56,6 @@ $string = "<p>". str_replace("\n", "</p>\n<p>", $row[3])."</p>";
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    document.getElementById("save").onclick = function(event) {
-        var name = document.getElementById("name").value;
-        var text = document.getElementById("new").value;
-        if (text == "" || name == "") {
-            alert("Поля заполнены не полностью! Заполните.");
-        }
-        if (name.length > 50) {
-            alert("Заголовок слишком длинный!");
-        }
-    }
-</script>
+<script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
