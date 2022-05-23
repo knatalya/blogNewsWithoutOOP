@@ -63,6 +63,13 @@ h1, h2 {
     color: #9B9B9B;
 }
 
+.number {
+    font-size: 16px;
+    line-height: 18px;
+    font-family: 'Raleway', sans-serif;
+    font-feature-settings: 'pnum' on, 'lnum' on !important;
+}
+
 .content {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -261,10 +268,4 @@ h1, h2 {
     padding: 0.5rem 1.25rem;
     cursor: pointer;
     border: none;
-}
-.number {
-    font-size: 16px;
-    line-height: 18px;
-    font-family: 'Raleway', sans-serif;
-    font-feature-settings: 'pnum' on, 'lnum' on !important;
 }

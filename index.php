@@ -13,8 +13,8 @@ $art = ($page * $kol) - $kol;
 $stmt = $db->query("SELECT * FROM news ORDER BY date DESC LIMIT $art,$kol");
 $res = $db->query("SELECT COUNT(*) FROM news");
 $rows = $res->fetch();
-$total = $rows[0];
-$str_page = ceil($total / $kol);
+$total = $rows[0] - 5;
+$str_page = ceil($total / 6) + 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +43,7 @@ $str_page = ceil($total / $kol);
                     $text = "<a href=\"#openModal\" class=\"add\"><img src=\"resources/add.svg\" alt=\"Добавить новость\"></a>";
                     echo($text);
                 }
-                while ($row = $stmt->fetch()) {
+                foreach ($stmt as $row) {
                     if (strlen($row[3]) > 750 ) {
                         $string = substr($row[3], 0, 750);
                         $string = rtrim($string, "!,.-");
@@ -63,24 +63,19 @@ $str_page = ceil($total / $kol);
         </div>
         <div class="pagination">
             <?php
-                if($_GET['page'] != 1)  {
+                if(isset($_GET['page']) && $_GET['page'] != 1)  {
                     $back = "<a href=\"index.php?page=".($_GET['page']-1)."\"><img src=\"resources/back.svg\" alt=\"Назад\"></a>";
                     echo $back;
                 }
-                if (isset($_GET['page'])) {
-                    $text = "<a href=\"index.php?page=1\">1</a>
-                        <div><span>...</span></div>
-                        <a href=\"index.php?page=".$_GET['page']."\" class=\"active\">".$_GET['page']."</a>
-                        <div><span>...</span></div>
-                        <a href=\"index.php?page=".$str_page."\">$str_page</a>";
-                } else {
-                    $text = "<a href=\"index.php?page=1\">1</a>
-                        <div><span>...</span></div>
-                        <a href=\"index.php?page=".$_GET['page']."\" class=\"active\">1</a>
-                        <div><span>...</span></div>
-                        <a href=\"index.php?page=".$str_page."\">$str_page</a>";
+                for ($i=1; $i<=$str_page; $i++) {
+                    if ($i == $_GET['page'] || (!isset($_GET['page']) && $i == 1)) {
+                        $text = "<a href=\"index.php?page=".$i."\" class=\"active\">".$i."</a>";
+                    }
+                    else {
+                        $text = "<a href=\"index.php?page=".$i."\">".$i."</a>";
+                    }
+                    echo $text;
                 }
-                echo $text;
                 if($_GET['page'] != $str_page)  {
                     $forward = "<a href=\"index.php?page=".($_GET['page']+1)."\"><img src=\"resources/forward.svg\" alt=\"Вперед\"></a>";
                     echo $forward;
