@@ -28,10 +28,10 @@ $string = "<p>". str_replace("\n", "</p>\n<p>", $row[3])."</p>";
         <h1><?php echo $row[2] ?></h1>
         <div>
             <a href="#openModal" class="edit">Редактировать</a>
-            <a href="delete.php?new=<?php echo $id?>" class="delete">Удалить</a>
+            <a href="controllers/delete.php?new=<?php echo $id?>" class="delete">Удалить</a>
         </div>
     </header>
-    <p class="date"><?php echo date('d.m.Y', strtotime($row[1])) ?></p>
+    <p class="date number"><?php echo date('d.m.Y', strtotime($row[1])) ?></p>
     <p><?php echo $string ?></p>
 </div>
 <div id="openModal" class="modal">
@@ -42,13 +42,12 @@ $string = "<p>". str_replace("\n", "</p>\n<p>", $row[3])."</p>";
                 <a href="#close" title="Close" class="close">×</a>
             </div>
             <div class="modal-body">
-                <form method="post" action="update.php">
+                <form method="post" action="controllers/update.php">
                     <p>Заполните все поля</p>
                     <input name="id" type="number" value="<?php echo $row[0] ?>" style="display: none">
                     <input name="name" id="name" type="text" placeholder="Заголовок новости" value="<?php echo $row[2] ?>"/>
-                    <textarea name="news" id="news" cols="30" rows="10" placeholder="Новость"><?php echo $row[3] ?></textarea>
+                    <textarea name="new" id="new" cols="30" rows="10" placeholder="Новость"><?php echo $row[3] ?></textarea>
                     <div>
-<!--                        <a href="update.php?new=--><?php //echo $id?><!--" class="save" id="save">Сохранить</a>-->
                         <input type="submit" class="save" id="save" placeholder="Сохранить">
                         <a href="#close" class="btn-close">Отменить</a>
                     </div>
@@ -60,7 +59,7 @@ $string = "<p>". str_replace("\n", "</p>\n<p>", $row[3])."</p>";
 <script type="text/javascript">
     document.getElementById("save").onclick = function(event) {
         var name = document.getElementById("name").value;
-        var text = document.getElementById("news").value;
+        var text = document.getElementById("new").value;
         if (text == "" || name == "") {
             alert("Поля заполнены не полностью! Заполните.");
         }

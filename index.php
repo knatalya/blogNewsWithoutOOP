@@ -1,15 +1,6 @@
 <?php
 $db = new PDO('mysql:host=mariadb;dbname=default', 'nat', '');
 $db->exec("set names utf8");
-if(isset($_POST['name']) && isset($_POST['new']) && $_POST['name'] != ""  && $_POST['new'] != "" && strlen($_POST['name']) <= 50) {
-    $name = $_POST['name'];
-    $new = $_POST['new'];
-    $date = date("Y-m-d H:i:s");
-    $data = array( 'date'=>$date, 'name' => $name, 'new' => $new );
-    $query = $db->prepare("INSERT INTO news (date, name, new) values (:date, :name, :new)");
-    $query->execute($data);
-    header('Location: index.php#close ');
-}
 if (isset($_GET['page'])){
     $page = $_GET['page'];
 } else $page = 1;
@@ -105,7 +96,7 @@ $str_page = ceil($total / $kol);
                     <a href="#close" title="Close" class="close">×</a>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="">
+                    <form method="post" action="controllers/add.php">
                         <p>Заполните все поля</p>
                         <input name="name" id="name" type="text" placeholder="Заголовок новости (не больше 50 символов)" />
                         <textarea name="new" id="new" cols="30" rows="10" placeholder="Новость"></textarea>

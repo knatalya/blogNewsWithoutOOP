@@ -263,5 +263,8 @@ h1, h2 {
     border: none;
 }
 .number {
+    font-size: 16px;
+    line-height: 18px;
+    font-family: 'Raleway', sans-serif;
     font-feature-settings: 'pnum' on, 'lnum' on !important;
 }
